@@ -35,7 +35,7 @@ public class Program2 {
 
         /* 
          * At any given ith index, we will determine the longest decreasing subsequence at each element 
-         * up to nums[i] and continuously store the largest of those longest decreasing subsequences at d[i]
+         * up to nums[i] and continuously update d[i] by storing the largest of those longest decreasing subsequences
          * 
         */
         for (int i = 1; i < n; i++) {
