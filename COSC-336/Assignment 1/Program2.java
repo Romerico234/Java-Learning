@@ -16,6 +16,9 @@ public class Program2 {
     }
 
     public static int longestDecreasingSub(int[] nums) {
+        /*
+         * Base cases for an early exit if size of nums is less than or equal to 1
+         */
         if (nums.length == 0)
             return 0;
         else if (nums.length == 1)
@@ -23,16 +26,28 @@ public class Program2 {
 
         int n = nums.length;
         int[] d = new int[n];
+
+        /*
+         * Each element is at least a subsequence of itself
+         */
         for (int i = 0; i < n; i++)
             d[i] = 1;
 
-        for (int i = n; i >= 0; i--) {
-            for (int j = i + 1; j < n; j++) {
-                if (nums[i] > nums[j])
-                    d[i] = Math.max(d[i], 1 + d[j]);
+        /* 
+         * At any given ith index, we will determine the longest decreasing subsequence at each element 
+         * up to nums[i] and continuously store the largest of those longest decreasing subsequences at d[i]
+         * 
+        */
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] < nums[j])
+                    d[i] = Math.max(d[i], d[j] + 1);
             }
         }
 
+        /*
+         * Return the largest decreasing subsequence in the d array
+         */
         int max = d[0];
         for (int i = 1; i < n; i++)
             if (d[i] > max)

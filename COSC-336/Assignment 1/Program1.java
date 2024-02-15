@@ -11,35 +11,47 @@ public class Program1 {
                 380, 807, 23, 506, 98, 757, 247 };
 
         System.out.println(longestIncreasingSub(list1));
-        // System.out.println(longestIncreasingSub(list2));
-        // System.out.println(longestIncreasingSub(list3));
+        System.out.println(longestIncreasingSub(list2));
+        System.out.println(longestIncreasingSub(list3));
     }
 
     public static int longestIncreasingSub(int[] nums) {
-        if (nums.length == 0)
+        /*
+         * Base cases for an early exit if size of nums is less than or equal to 1
+         */
+        if (nums.length == 0) 
             return 0;
         else if (nums.length == 1)
             return 1;
 
         int n = nums.length;
         int[] d = new int[n];
+
+        /*
+         * Each element is at least a subsequence of itself
+         */
         for (int i = 0; i < n; i++)
             d[i] = 1;
 
-        for (int i = n; i >= 0; i--) {
-            for (int j = i + 1; j < n; j++) {
-                if (nums[i] < nums[j])
-                    d[i] = Math.max(d[i], 1 + d[j]);
+        /* 
+         * At any given ith index, we will determine the longest increasing subsequence at each element 
+         * up to nums[i] and continuously store the largest of those longest increasing subsequences at d[i]
+         * 
+        */
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) 
+                    d[i] = Math.max(d[i], d[j] + 1);
             }
         }
 
+        /*
+         * Return the largest increasing subsequence found in the d array 
+         */
         int max = d[0];
         for (int i = 1; i < n; i++)
             if (d[i] > max)
                 max = d[i];
-
-        for (int i = 0; i < n; i++)
-            System.out.println(d[i]);
 
         return max;
 
