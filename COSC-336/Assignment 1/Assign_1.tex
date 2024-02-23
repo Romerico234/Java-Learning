@@ -1,0 +1,430 @@
+\documentclass[12pt,letterpaper,final]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{listings}
+
+
+%\author{Marius Zimand}
+
+\begin{document}
+
+
+\fbox{
+\vbox{
+\begin{flushleft}
+Romerico David, Haley Elliott, Julian Halsey, Nkechiyem Molokwu\\  % authors' names
+COSC 336 \\  %class
+02/15/2024\\  % date
+\end{flushleft}
+\center{\Large{\textbf{Assignment 1}}}
+%\end{mdframed}
+} % end vbox
+} % end fbox
+\vline
+
+
+\noindent\textbf{Exercise 1:}  
+
+\bigskip
+
+
+\textbf{1.} $T_a(n) = \Theta(n)$
+
+\medskip
+
+\quad $T_b(n) = \Theta(n)$
+
+\medskip
+
+\quad $T_c(n) = \Theta(log_2(n))$
+
+
+\bigskip
+
+\textbf{2.} Yes, the running time for (b) is $O(n)$ and the running time for (a) is 
+
+$O(n)$. Therefore $T_b(n) \le T_a(n)$ and $T_b(n) = O(T_a(n))$
+
+\bigskip
+
+\textbf{3.} No, the running time for (c) is $O(log_2(n))$ and the running time for 
+
+(a) is $O(n)$. Therefore $T_c(n) \neq T_a(n)$ and $T_c(n) \neq \Theta(T_a(n))$.
+
+\bigskip
+
+
+
+\noindent\textbf{Exercise 2:} 
+
+An example of a function $f(n)$ with the property that $f(n)$ s $\omega(n^2)$ and 
+
+also $f(n)$ is $o(n^3)$ is: $n^2\log(n)$.
+
+\bigskip
+
+\noindent\textbf{Exercise 3:}
+
+$(3n+7)(2n+3) = 6n^2 + 23n + 21$
+
+% $T_1(n) = 6n^2$
+
+% $T_2(n) = 23n$
+
+% $T_3(n) = 21$
+
+% $T_1(n)+T_2(n)+T_3(n) = 
+
+$Max[\Theta(6n^2), \Theta(23n), \Theta(21))] = Max[\Theta(n^2), \Theta(n), \Theta(1)] = \Theta(n^2)$
+
+The running time of this program is: $\Theta(n^2)$
+
+
+\bigskip
+
+
+\noindent\textbf{Programming Task 1:} 
+
+\medskip
+
+\underline{Description of Algorithm:}
+\medskip
+
+Our algorithm iterates over the nums array using dynamic programming. The thought process was that if we want to compute the longest increasing subsequence at any given ith index, we will determine the longest increasing subsequence at each element up to nums[i] and continuously update d[i] by storing the largest of those longest increasing subsequences. Additionally, this led us to assume that at any given element, the smallest possible increasing subsequence is the sequence formed by itself. This means the elements of d[i] are initialized to 1 but since there are no elements prior to the first element, d[0] will always remain equal to 1.
+
+We had an outer loop traverse from i = 1 to n = the length of nums and an inner loop from j = 0 to i. If nums[i] is greater than nums[j], it means nums[i] is part of an increasing subsequence that includes nums[j] (at index j). Hence, we can update d[i] to be the maximum between its current value and d[j] + 1. This will be done over all the elements of the nums array. The running time for our program is $O(n^2)$ since we are iterating over each element and comparing it with all the elements up to it. 
+
+\bigskip
+
+\underline{Code:}
+\lstset{language=Java}
+\begin{lstlisting}
+    public static int longestIncreasingSub(int[] nums) {
+        /*
+         * Base cases for an early exit if size of nums is 
+         * less than or equal to 1
+         */
+        if (nums.length == 0)
+            return 0;
+        else if (nums.length == 1)
+            return 1;
+        int n = nums.length;
+        int[] d = new int[n];
+        /*
+         * Each element is at least a subsequence of itself
+         */
+        for (int i = 0; i < n; i++)
+            d[i] = 1;
+        /* 
+         * At any given ith index, we will determine the longest
+         * increasing subsequence at each element up to nums[i]
+         * and continuously update d[i] by storing the largest
+         * of those longest increasing subsequences
+         */
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) 
+                    d[i] = Math.max(d[i], d[j] + 1);
+            }
+        }
+        /*
+         * Return the largest increasing subsequence found
+         * in the d array 
+         */
+        int max = d[0];
+        for (int i = 1; i < n; i++)
+            if (d[i] > max)
+                max = d[i];
+
+        return max;
+    }
+    
+\end{lstlisting}
+\bigskip
+
+\underline{Results Table:}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    Data Set \# & LIS \\
+    \hline
+    1 & 4 \\
+    \hline
+    2 & 10 \\
+    \hline
+    3 & 9 \\
+    \hline
+    \end{tabular}
+    \caption{Programming Task 1}
+    \label{tab:my_table}
+\end{table}
+\bigskip
+
+
+
+
+% Our algorithm used iteration with dynamic programming as the d[i] array. Since the element d[i] is the length of the longest increasing subsequence whose last term is nums[i], we could break the problem into subproblems and put the results in the d array. Our thought process was that if we want to compute nums[i]'s LIS, we have to start at nums[0] and go through until nums[i-1], checking if any of the elements are less than nums[i] and increments the d array if they are. To implement this subproblem for the solution, we had an outer for-loop traverse from 1 to nums.length-1. Then, the inner for-loop (using variable counter w) traverses from 0 to i-1. Within this loop, an if-statement checks if nums[i] is greater than nums[w]. If so, then d[i] is  the maximum of d[i] and d[w] + 1, where d[w] + 1 represents the length of the LIS ending at nums[w] plus one for appending nums[i]. This loop acts as the subproblem in a way since it goes through each of the elements preceeding nums[i] and compares their values like we did before. We also computed d[0] as 1 since there are no other elements before it, so its LIS is only itself. To begin, we set every d[i] as 1 since it has at least itself.
+
+
+
+\bigskip
+
+\bigskip
+
+
+
+\noindent\textbf{Programming Task 2:} 
+\medskip
+
+\underline{Description of Algorithm:}
+
+Our algorithm iterates over the nums array using dynamic programming. The thought process was that if we want to compute the longest decreasing subsequence at any given ith index, we will determine the longest decreasing subsequence at each element up to nums[i] and continuously update d[i] by storing the largest of those longest decreasing subsequences. Additionally, this led us to assume that at any given element, the smallest possible decreasing subsequence is the sequence formed by itself. This means the elements of d[i] are initialized to 1 but since there are no elements prior to the first element, d[0] will always remain equal to 1.
+
+We had an outer loop traverse from i = 1 to n = the length of nums and an inner loop from j = 0 to i. If nums[i] is less than nums[j], it means nums[i] is part of a decreasing subsequence that includes nums[j] (at index j). Hence, we can update d[i] to be the maximum between its current value and d[j] + 1. This will be done over all the elements of the nums array. The running time for our program is $O(n^2)$ since we are iterating over each element and comparing it with all the elements up to it. 
+
+
+\bigskip
+
+\underline{Code:}
+
+\begin{lstlisting}
+    public static int longestDecreasingSub(int[] nums) {
+        /*
+         * Base cases for an early exit if size of nums is
+         * less than or equal to 1
+         */
+        if (nums.length == 0)
+            return 0;
+        else if (nums.length == 1)
+            return 1;
+
+        int n = nums.length;
+        int[] d = new int[n];
+
+        /*
+         * Each element is at least a subsequence of itself
+         */
+        for (int i = 0; i < n; i++)
+            d[i] = 1;
+
+        /* 
+         * At any given ith index, we will determine the
+         * longest decreasing subsequence at each element 
+         * up to nums[i] and continuously update d[i] by 
+         * storing the largest of those longest decreasing
+         * subsequences
+         * 
+        */
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] < nums[j])
+                    d[i] = Math.max(d[i], d[j] + 1);
+            }
+        }
+
+        /*
+         * Return the largest decreasing subsequence in
+         * the d array
+         */
+        int max = d[0];
+        for (int i = 1; i < n; i++)
+            if (d[i] > max)
+                max = d[i];
+
+        return max;
+    }
+
+\end{lstlisting}
+
+\bigskip
+
+
+\underline{Results Table:}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    Data Set \# & LDS \\
+    \hline
+    1 & 5 \\
+    \hline
+    2 & 11 \\
+    \hline
+    3 & 10 \\
+    \hline
+    \end{tabular}
+    \caption{Programming Task 2}
+    \label{tab:my_table}
+\end{table}
+
+\bigskip
+
+\medskip
+
+
+% For union of sets, write $A \cup B$; for intersection $A \cap B$; the empty set is denoted $\emptyset$.
+
+
+
+
+% Greek letters are easy to write: $\alpha$, $\beta$, $\gamma$, $\theta$, $\Theta$, $\omega$, $\Omega$, and so on. 
+
+% See \url{https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols} for a large list of latex symbols.
+
+% This is how we can write math equations on a separate line:
+% \[
+% a+b = c^2 + \log n. 
+% \]
+
+% This is how we can write math equations on a separate line, which include normal text
+% \[
+% a+b = c^2 + \log n. \mbox{    (Joe's equation).}
+% \]
+
+% This is how we can write multi-line math equations on a separate line:
+% \[
+% \begin{array}{ll}
+% a+b & = c^2 + \log n \\
+% &\leq 5d + \sin x \\
+% & = A.
+% \end{array}
+% \]
+% Matrices can be written like this:
+% \[
+% A = 
+% \begin{pmatrix}
+% 1 & a & b \\
+% 2 & a^2 & b^3 \\
+% 3 & a_3 & b_5
+% \end{pmatrix}
+% \]
+% \bigskip
+
+% This is how to make a table:
+
+% \medskip
+
+% \begin{tabular}{|c|c|c|}
+% \hline
+% $\delta$ & $a$ & $x$ \\
+% \hline
+% $q_{1}$ & $q_{1}$ & $ b$ \\
+% $q_{2}$ & $q_{1}$ & $ c$ \\
+% $q_{3}$ & $q_{2}$ & $ b$ \\
+% $q_{4}$ & $q_{3}$ & $ c$ \\
+% $q_{5}$ & $q_{4}$ & $ b$ \\
+% \hline
+% \end{tabular}
+% \medskip
+
+% This is how to draw the diagram of an automaton:
+% \medskip
+
+% \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2.8cm]]
+
+%   \node[initial, state, accepting] (3) {$q_{3}$};
+%   \node[state] (2) [above right of=3] {$q_{2}$};
+%   \node[state] (4) [below right of=3] {$q_{4}$};
+%   \node[state, accepting] (1) [right of=2] {$q_{1}$};
+ 
+  
+%   \path[->]
+%     (3.north) edge [left] node {$u$} (2.west)    
+%     (2) edge [right] node {$d$} (3)
+    
+%     (3) edge [right] node{$d$} (4)
+%     (4.west) edge [left] node {$u$} (3.south)
+    
+%     (2) edge [bend left] node[above] {$u$} (1)
+%     (1) edge [loop right] node {$u$} (1)
+%     (1) edge [bend left] node[below] {$d$} (2)
+%        ;  
+% \end{tikzpicture}
+
+% This is how to draw an arbitrary graph using a package called TikZ.
+% \medskip
+
+
+% \begin{tikzpicture}
+% %% vertices
+% \draw[fill=black] (0,0) circle (3pt);
+% \draw[fill=black] (4,0) circle (3pt);
+% \draw[fill=black] (2,1) circle (3pt);
+% \draw[fill=black] (2,3) circle (3pt);
+% %% vertex labels
+% \node at (-0.5,0) {1};
+% \node at (4.5,0) {2};
+% \node at (2.5,1.2) {3};
+% \node at (2,3.3) {4};
+% %%% edges
+% \draw[thick] (0,0) -- (4,0) -- (2,1) -- (0,0) -- (2,3) -- (4,0) -- (2,1) -- (2,3);
+% \end{tikzpicture}
+
+% This should be pretty self-explanatory. The ordered pairs in parentheses are all simply coordinates in the plane.
+
+
+% The edges are drawn by taking a walk through the graph, using each edge exactly once.
+% You can do much fancier things in TikZ, but this should at least get you started.
+
+
+
+
+% \bigskip
+
+% To make latex produce the text exactly how we type, we can use the verbatim environment. This is useful for example to write an algorithm in pseudo-code. Below is a short example.
+
+% \begin{verbatim}
+% s = 0
+% for i going from 1 to n
+
+%    s= s+ a[i]
+
+% end-for
+% \end{verbatim}
+
+% To append in the  latex file the Java source code and the screenshots, you can print them  as a pdf file (placed in the same folder) and then include them  in the latex file with 
+% \begin{verbatim}
+% \includepdf[pages=-,pagecommand={},width=\textwidth]{file.pdf}
+
+% \end{verbatim}
+% To append in the  latex file a .jpg file (for a photo), use 
+% \begin{verbatim}
+% \includegraphics[width=\linewidth]{photo.jpg}
+
+% \end{verbatim}
+
+
+
+
+% \noindent\textbf{Problem 2:} Here is the solution for problem 2.....
+
+
+
+
+
+% \bigskip
+
+% \noindent\textbf{Problem 3:} Here is the solution for problem 3. ...
+
+
+% \bigskip
+
+% \noindent\textbf{Problem 4:}  Here is the solution for problem 4. ...
+
+\end{document}

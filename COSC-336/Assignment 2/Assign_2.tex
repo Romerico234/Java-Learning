@@ -1,0 +1,425 @@
+\documentclass[12pt,letterpaper,final]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{physics}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{listings}
+
+
+%\author{Marius Zimand}
+
+\begin{document}
+
+
+\fbox{
+\vbox{
+\begin{flushleft}
+Romerico David, Haley Elliott, Julian Halsey, Nkechiyem Molokwu\\  % authors' names
+COSC 336 \\  %class
+02/22/2024\\  % date
+\end{flushleft}
+\center{\Large{\textbf{Assignment 2}}}
+%\end{mdframed}
+} % end vbox
+} % end fbox
+\vline
+
+
+\noindent\textbf{Exercise 1:}  
+
+\bigskip
+
+\textbf{a.} $\Theta ((4n+1)(4^{log_2(n)}))$
+
+\quad $= \Theta (4n^3+n^2)$
+
+\quad $= \Theta (n^3)$
+
+\bigskip
+
+\textbf{b.} $t_1(n) = n^2 + n$
+
+\quad $t_2(n) = n^2$
+
+\bigskip
+
+\textbf{c.} $t_3(n) = n^2$ since $t_3(2n) = (2n)^2 = 4n^2 = \theta (n^2)$
+
+\bigskip
+
+\textbf{d.}  $t_4(n) = 2^n$ since $t_4(2n) =  2^{2n}$
+
+\bigskip
+
+\noindent\textbf{Exercise 2:} 
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+& A & B & $O$ & $o$ & $\Omega$ & $\omega$ & $\Theta$ \\
+\hline
+a. & $\log^kn$ & $n^\epsilon$ & Yes & Yes & No & No & No  \\
+\hline
+b. & $n^k$ & $c^n$ & Yes & Yes & No & No & No  \\
+\hline
+c. & $\sqrt{n}$ & $n^{\sin n}$ & No & No & No & No & No  \\
+\hline
+d. & $2^n$ & $2^{n/2}$ & No & No & Yes & Yes & No  \\
+\hline
+e. & $n^{\log c}$ & $c^{\log n}$ & Yes & No & Yes & No & Yes  \\
+\hline
+f. & $\log(n!)$ & $\log(n^n)$ & Yes & No & Yes & No & Yes \\
+\hline
+\end{tabular}
+\end{table}
+
+\bigskip
+
+\noindent\textbf{Exercise 3:}
+\bigskip
+
+\textbf{a.} $(n \cdot n)(\frac{n}{2}) = \frac{n^3}{2}$
+
+\quad $=> \Theta(\frac{n^3}{2})$
+
+\quad $= \Theta(n^3)$
+
+\bigskip
+
+\textbf{b.} $n + \frac{n}{2}$
+
+\quad $=> \Theta(n+\frac{n}{2})$
+
+\quad $= \Theta(n)$
+
+\bigskip
+
+\textbf{c.} $(n \cdot n)(n \cdot n) = n^4$
+
+\quad $=> \Theta(n^4)$
+
+\bigskip
+
+\textbf{d.} $\Theta(\log_2n)$
+
+\bigskip
+
+\textbf{e.} $(n)(log_2(n \cdot n))$
+
+\quad $=> (n)(\log_2(n^2))$
+
+\quad $=> (n)(2\log_2n)$
+
+\quad $= \Theta(n\log_2n)$
+
+
+\bigskip
+
+\bigskip
+
+\noindent\textbf{Exercise 4:}
+
+\textbf{a.} $S_1 = 500 + 501 + 502 +....+ 999$
+
+
+\quad $n = 999 - 500 + 1 = 500$, \space $a = 500$, \space $d = 501 - 500 = 1$
+
+\quad 
+
+% \quad $a_n = 999 = a + (n-1)d = 500 + (n-1)1$
+
+% \quad $499 = (n-1)1$
+
+% \quad $499 = n-1$
+
+% \quad $n = 500$
+
+\quad $S_1 = (500)(500) + (\frac{1(500(500-1))}{2})$
+
+\quad $= 250000 + (\frac{249500}{2})$
+
+\quad $= 250000 + 124750$
+
+\quad $= 374750$
+
+\bigskip
+
+\textbf{b.} $S_2 = 1 + 3 + 5 +....+ 999$
+
+\quad $n = \frac{999-1}{2}+1 = 500$,\space$a = 1$,\space$d = 2$\space$
+
+% \quad $a_n = 999 = a + (n-1)d = 1 + (n-1)2$
+
+% \quad $998 = (n-1)2$
+
+% \quad $499 = n-1$
+
+% \quad $n = 500$
+
+\bigskip
+
+\quad $S_2 = (500)(1) = (\frac{2(500(500-1))}{2}$
+
+\quad $= 500 + (500(500 - 1))$
+
+\quad $= 500 + (500(499)$
+
+\quad $= 500 + 249500$
+
+\quad $= 250000$
+
+\bigskip
+
+\textbf{c.} $n = 30$,\space $k = 4$
+
+\quad Number of possible committees $ = \binom{n}{k} = \binom{30}{4}$
+
+\quad $\binom{n}{k} = \frac{n!}{k!(n-k)!}$
+
+\quad  $=> \binom{30}{4} = \frac{30!}{4!(30-4)!} = \frac{30!}{4!26!}$
+
+\quad
+
+\quad $= \frac{30\cdot29\cdot28\cdot\27\cdot26!}{4!26!}$
+
+\quad
+
+\quad $= \frac{30\cdot29\cdot28\cdot27}{24}$
+
+\quad $= 27405$
+
+\quad There are $27405$ possible combinations.
+
+\bigskip
+
+\textbf{d.} $C_n = \binom{n}{4}$
+
+\quad $\binom{n}{4} = \frac{n!}{4!(n-4)!}$
+
+\quad $= \frac{n(n-1)(n-2)(n-3)(n-4)(n-5)...}{4!\cdot(n-4)(n-5)...}$
+
+\quad $= \frac{n(n-1)(n-2)(n-3)}{4!}$
+
+\quad $=\frac{n^4-6n^3+11n^2-6n}{24}$
+
+\quad = $\Theta(n^4)$
+
+
+% = \frac{1}{4!}\frac{n!}{(n-4)!}$
+
+% \quad $ = \frac{1}{4!}(n*(n-1)*(n-2)*....*(n-5))$ 
+
+% \quad $\frac{1}{4!}$ is a constant, so $\frac{1}{4!} = \Theta(1)$
+
+% \quad $(n*(n-1)*(n-2)*....*(n-5) = n^4(1*(1-\frac{1}{n})*(1-\frac{2}{n})*....*(1-\frac{4}{n}))$
+
+% \quad $4$ is a constant $\therefore$\space as $n$ approaches $\infty$, $(1*(1-\frac{1}{n})*(1-\frac{2}{n})*....*(1-\frac{4}{n}))$
+
+% \quad will approach $1$.
+
+% \quad So, $n^4(1*(1-\frac{1}{n})*(1-\frac{2}{n})*....*(1-\frac{4}{n})) = n^4(1) = n^4$
+
+\quad $C_n = \Theta(n^4)$ \space $\therefore$ \space $C_n \neq o(n^3)$ 
+
+\bigskip
+
+
+\noindent\textbf{Exercise 5:}
+
+Lower Bound:
+
+$S_n \ge \int_{0}^{n} x^2\sqrt{x} dx$
+
+$= \int_{0}^{n} x^{5/2}$
+
+$=\eval{\frac{2}{7}x^{7/2}}_0^n $
+
+$= \frac{2}{7}n^{7/2}$
+
+$=n^{7/2}$
+
+
+\bigskip
+Upper Bound:
+
+$S_n \le \int_{1}^{n+1} x^2\sqrt{x} dx$
+
+$= \int_{1}^{n+1} x^{5/2}$
+
+$=\eval{\frac{2}{7}x^{7/2}}_1^{n+1}$
+
+$= \frac{2}{7}(n+1)^{7/2}-\frac{2}{7}$
+
+$= \frac{2}{7}(n+1)^{7/2}$
+
+$= (n+1)^{7/2}$
+
+$=n^{7/2}$
+\bigskip
+
+$\therefore \Theta(n^{7/2})$
+\bigskip
+
+% For union of sets, write $A \cup B$; for intersection $A \cap B$; the empty set is denoted $\emptyset$.
+
+
+
+
+% Greek letters are easy to write: $\alpha$, $\beta$, $\gamma$, $\theta$, $\Theta$, $\omega$, $\Omega$, and so on. 
+
+% See \url{https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols} for a large list of latex symbols.
+
+% This is how we can write math equations on a separate line:
+% \[
+% a+b = c^2 + \log n. 
+% \]
+
+% This is how we can write math equations on a separate line, which include normal text
+% \[
+% a+b = c^2 + \log n. \mbox{    (Joe's equation).}
+% \]
+
+% This is how we can write multi-line math equations on a separate line:
+% \[
+% \begin{array}{ll}
+% a+b & = c^2 + \log n \\
+% &\leq 5d + \sin x \\
+% & = A.
+% \end{array}
+% \]
+% Matrices can be written like this:
+% \[
+% A = 
+% \begin{pmatrix}
+% 1 & a & b \\
+% 2 & a^2 & b^3 \\
+% 3 & a_3 & b_5
+% \end{pmatrix}
+% \]
+% \bigskip
+
+% This is how to make a table:
+
+% \medskip
+
+% \begin{tabular}{|c|c|c|}
+% \hline
+% $\delta$ & $a$ & $x$ \\
+% \hline
+% $q_{1}$ & $q_{1}$ & $ b$ \\
+% $q_{2}$ & $q_{1}$ & $ c$ \\
+% $q_{3}$ & $q_{2}$ & $ b$ \\
+% $q_{4}$ & $q_{3}$ & $ c$ \\
+% $q_{5}$ & $q_{4}$ & $ b$ \\
+% \hline
+% \end{tabular}
+% \medskip
+
+% This is how to draw the diagram of an automaton:
+% \medskip
+
+% \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2.8cm]]
+
+%   \node[initial, state, accepting] (3) {$q_{3}$};
+%   \node[state] (2) [above right of=3] {$q_{2}$};
+%   \node[state] (4) [below right of=3] {$q_{4}$};
+%   \node[state, accepting] (1) [right of=2] {$q_{1}$};
+ 
+  
+%   \path[->]
+%     (3.north) edge [left] node {$u$} (2.west)    
+%     (2) edge [right] node {$d$} (3)
+    
+%     (3) edge [right] node{$d$} (4)
+%     (4.west) edge [left] node {$u$} (3.south)
+    
+%     (2) edge [bend left] node[above] {$u$} (1)
+%     (1) edge [loop right] node {$u$} (1)
+%     (1) edge [bend left] node[below] {$d$} (2)
+%        ;  
+% \end{tikzpicture}
+
+% This is how to draw an arbitrary graph using a package called TikZ.
+% \medskip
+
+
+% \begin{tikzpicture}
+% %% vertices
+% \draw[fill=black] (0,0) circle (3pt);
+% \draw[fill=black] (4,0) circle (3pt);
+% \draw[fill=black] (2,1) circle (3pt);
+% \draw[fill=black] (2,3) circle (3pt);
+% %% vertex labels
+% \node at (-0.5,0) {1};
+% \node at (4.5,0) {2};
+% \node at (2.5,1.2) {3};
+% \node at (2,3.3) {4};
+% %%% edges
+% \draw[thick] (0,0) -- (4,0) -- (2,1) -- (0,0) -- (2,3) -- (4,0) -- (2,1) -- (2,3);
+% \end{tikzpicture}
+
+% This should be pretty self-explanatory. The ordered pairs in parentheses are all simply coordinates in the plane.
+
+
+% The edges are drawn by taking a walk through the graph, using each edge exactly once.
+% You can do much fancier things in TikZ, but this should at least get you started.
+
+
+
+
+% \bigskip
+
+% To make latex produce the text exactly how we type, we can use the verbatim environment. This is useful for example to write an algorithm in pseudo-code. Below is a short example.
+
+% \begin{verbatim}
+% s = 0
+% for i going from 1 to n
+
+%    s= s+ a[i]
+
+% end-for
+% \end{verbatim}
+
+% To append in the  latex file the Java source code and the screenshots, you can print them  as a pdf file (placed in the same folder) and then include them  in the latex file with 
+% \begin{verbatim}
+% \includepdf[pages=-,pagecommand={},width=\textwidth]{file.pdf}
+
+% \end{verbatim}
+% To append in the  latex file a .jpg file (for a photo), use 
+% \begin{verbatim}
+% \includegraphics[width=\linewidth]{photo.jpg}
+
+% \end{verbatim}
+
+
+
+
+% \noindent\textbf{Problem 2:} Here is the solution for problem 2.....
+
+
+
+
+
+% \bigskip
+
+% \noindent\textbf{Problem 3:} Here is the solution for problem 3. ...
+
+
+% \bigskip
+
+% \noindent\textbf{Problem 4:}  Here is the solution for problem 4. ...
+
+\end{document}
