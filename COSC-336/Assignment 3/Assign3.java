@@ -66,7 +66,8 @@ public class Assign3 {
         int k = l;
 
         /*
-         * The loop merges the left and right halves together as follows:
+         * The loop merges the left and right halves together 
+         * and calculates the numbers of pairs as follows:
          * If the element at the left half is less 
          * than the element at the right half,
          * then all of the following elements of the right half are
