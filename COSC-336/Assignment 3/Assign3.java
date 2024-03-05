@@ -17,7 +17,7 @@ public class Assign3 {
 
     }
 
-    /*fileReader method to read the the inputs from the text files and assign them to an array */
+    /*fileReader method to read the inputs from files and assign them to an array */
     public static int[] fileReader(String fileName) { 
         try {
             File file = new File(fileName);
@@ -67,10 +67,12 @@ public class Assign3 {
 
         /*
          * The loop merges the left and right halves together as follows:
-         * If the element at the left half is less than the element at the right half,
+         * If the element at the left half is less 
+         * than the element at the right half,
          * then all of the following elements of the right half are
          * also greater than the current left element. 
-         * So, pairs is incremented by the number of remaining elements in the right array
+         * So, pairs is increased by 
+         * the number of remaining elements in the right array
          */
 
         while (i < nL && j < nR) {
@@ -95,5 +97,5 @@ public class Assign3 {
 
         return pairs;
 
-    }
+    }  
 }
