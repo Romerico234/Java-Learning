@@ -25,7 +25,6 @@ public class Assign3 {
             int size = 0;
             if (fileReader.hasNextInt())
                 size = fileReader.nextInt();
-
             int[] list = new int[size];
             int i = 0;
             while (fileReader.hasNextInt())
@@ -67,7 +66,7 @@ public class Assign3 {
 
         /*
          * The loop merges the left and right halves together 
-         * and calculates the numbers of pairs as follows:
+         * and calculates the number of pairs as follows:
          * If the element at the left half is less 
          * than the element at the right half,
          * then all of the following elements of the right half are

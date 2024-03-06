@@ -1,0 +1,421 @@
+\documentclass[12pt,letterpaper,final]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{automata,arrows}
+\usepackage{listings}
+
+
+%\author{Marius Zimand}
+
+\begin{document}
+
+
+\fbox{
+\vbox{
+\begin{flushleft}
+Romerico David, Haley Elliott, Julian Halsey, Nkechiyem Molokwu\\  % authors' names
+COSC 336 \\  %class
+03/05/2024\\  % date
+\end{flushleft}
+\center{\Large{\textbf{Assignment 3}}}
+%\end{mdframed}
+} % end vbox
+} % end fbox
+\vline
+
+
+\noindent\textbf{Exercise 1:}  
+
+\bigskip
+
+
+\textbf{1.} $a=3, b=4, f(n) = 3$
+
+\quad $n^{log_4 3}$  vs.  $3$
+
+\quad =$>$ $n^{0.79}$  vs.  $3$
+
+\quad =$>$ $n^{0.79} / 3$ because $n^{0.79}$ is larger than 3
+
+\quad  $\therefore$ T(n) $= \Theta (n^{log_4 3})$ since n is still a polynomial
+
+
+
+
+\bigskip
+
+\textbf{2.} $a=2, b=2, f(n) = 3n$
+
+\quad $n^{log_2 2}$  vs.  $3n$
+
+\quad =$>$ $n$  vs.  $3n$
+
+\quad $\therefore$ T(n) $= \Theta (n*log_2 n)$ since there was a tie
+
+\bigskip
+
+\textbf{3.} $a = 9, b = 3, f(n) = n^2\log n$
+
+\quad $n^{\log_39}$ vs $n^2\log n$ 
+
+\quad $= n^2$ vs $n^2\log n$
+
+\quad $=> \frac{n^2\log n}{n^2} = \log n$ is not a polynomial 
+
+\quad $\therefore$ Master Theorem cannot be used
+
+
+\bigskip
+
+
+
+\noindent\textbf{Exercise 2:} 
+
+\bigskip
+
+
+\textbf{1.} $T(n) = 2T(n-1) + 1, T(0) = 1$
+
+\quad $= 2[2T(n - 2) + 1] + 1$
+
+\quad $= 2^2T(n-2)+2$
+
+\quad $= 2^2[2T(n-3)+1]+2$
+
+\quad $= 2^3T(n-3)+3$
+
+\quad $ = 2^n T(n-k) + k$
+
+\quad Assume $n - k = 0 \therefore k = n$
+
+\quad $=> 2^nT(0) + n$
+
+\quad $= 2^n(1) + n$
+
+\quad $T(n) = \Theta (2^n)$
+
+% \leq 2^n + n, 2^n \geq \frac{2^n}{2} + \frac{n}{2}$
+
+\bigskip
+
+\textbf{2.} $T(n) = T(n-1) + 1, T(0) = 1$
+
+\quad $ = [T(n-2) + 1] + 1$
+
+\quad $= T(n-2)+2$
+
+\quad $= [T(n-3) + 1] + 2$
+
+\quad $=T(n-3) + 3$
+
+\quad $=T(n-k) + k$
+
+\quad Assume $n-k = 0 \therefore k = n$
+
+\quad $=> T(0) + n$
+
+\quad $= 1 + n$
+
+% \quad $= T(0) + 1 + 2 + ... + n$
+
+% \quad $n \leq n, n \geq \frac{n}{2}$
+
+\quad $T(n) = \Theta(n)$
+
+\bigskip
+
+\textbf{3.} $T(n) = \Theta(n\log(n))$
+
+\bigskip
+
+\textbf{4.} $T(n) = n + \frac{n}{2} + \frac{n}{2^2} + ... = \frac{n}{2^k}$
+
+\quad where $k = \log{n}$
+
+\quad $=n(1+\frac{1}{2}+\frac{1}{2^2}+...+\frac{1}{2^k}$)
+
+\quad $= n \frac{1-\frac{1}{2}^{\log(n)+1}}{1-\frac{1}{2}}$
+
+\quad $=\frac{n}{\frac{1}{2}} = 2n$
+
+\quad $T(n) = \Theta(n)$
+
+\bigskip
+
+
+\noindent\textbf{Programming Task:} 
+
+\medskip
+
+\underline{Description of Algorithm:}
+\medskip
+
+Our algorithm implements Merge Sort in order to achieve $\Theta(n\log n)$ running time. We slightly modified the Merge Sort algorithm so that it recursively calculates and sums the number of pairs in each traversal of the left and right halves of the original list. If the current element of the left half is less than the current element of the right half, and because the right half is sorted, we can conclude that the current element of the left half is less than all of the following elements in the right half. Therefore, the number of pairs can be incremented by the number of remaining elements in the right half.
+
+% The only change we made to it to count the number of *-pairs was creating a "pairs" variable and increasing it by the number of elements remaining in the R (right) array if the current element in the L (left) array is less than the R array one.
+
+\bigskip
+
+\underline{Code:}
+\lstset{language=Java}
+\begin{lstlisting}
+    public static int mergeSort(int[] A, int l, int r, int pairs) {
+        if (l < r) {
+            int m = l + (r - l) / 2;
+            pairs = mergeSort(A, l, m, pairs);
+            pairs = mergeSort(A, m + 1, r, pairs);
+            pairs += merge(A, l, m, r);
+        }
+        return pairs;
+    }
+
+    public static int merge(int[] A, int l, int m, int r) {
+        int pairs = 0;
+        int nL = m - l + 1; // length of left half
+        int nR = r - m; // length of right half
+
+        int[] L = new int[nL]; // left half array
+        int[] R = new int[nR]; // right half array
+
+        for (int i = 0; i < nL; i++)
+            L[i] = A[l + i]; // putting elements into left half
+
+        for (int j = 0; j < nR; j++)
+            R[j] = A[m + j + 1]; // putting elements into right half
+
+        int i = 0;
+        int j = 0;
+        int k = l;
+
+        /*
+         * The loop merges the left and right halves together
+         * and calculates the number of pairs as follows:
+         * If the element at the left half is less 
+         * than the element at the right half,
+         * then all of the following elements of the right half are
+         * also greater than the current left element. 
+         * So, pairs is increased by 
+         * the number of remaining elements in the right array
+         */
+
+        while (i < nL && j < nR) {
+            if (L[i] < R[j]) {
+                pairs += R.length - j;
+                A[k] = L[i++];
+            } else
+                A[k] = R[j++];
+            k++;
+        }
+
+        /*
+         * Leftover elements in either the left or right halves are
+         * appended at the end of the A array
+         */
+
+        while (i < nL)
+            A[k++] = L[i++];
+
+        while (j < nR)
+            A[k++] = R[j++];
+
+        return pairs;
+
+    }  
+\end{lstlisting}
+\bigskip
+
+\underline{Results Table:}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    Data Set \# & *-pairs \\
+    \hline
+    1 & 4 \\
+    \hline
+    2 & 248,339 \\
+    \hline
+    3 & \ 24,787,869 \\
+    \hline
+    \end{tabular}
+    \caption{Programming Task}
+    \label{tab:my_table}
+\end{table}
+\bigskip
+
+
+
+
+
+\bigskip
+
+\bigskip
+
+
+
+
+
+
+% For union of sets, write $A \cup B$; for intersection $A \cap B$; the empty set is denoted $\emptyset$.
+
+
+
+
+% Greek letters are easy to write: $\alpha$, $\beta$, $\gamma$, $\theta$, $\Theta$, $\omega$, $\Omega$, and so on. 
+
+% See \url{https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols} for a large list of latex symbols.
+
+% This is how we can write math equations on a separate line:
+% \[
+% a+b = c^2 + \log n. 
+% \]
+
+% This is how we can write math equations on a separate line, which include normal text
+% \[
+% a+b = c^2 + \log n. \mbox{    (Joe's equation).}
+% \]
+
+% This is how we can write multi-line math equations on a separate line:
+% \[
+% \begin{array}{ll}
+% a+b & = c^2 + \log n \\
+% &\leq 5d + \sin x \\
+% & = A.
+% \end{array}
+% \]
+% Matrices can be written like this:
+% \[
+% A = 
+% \begin{pmatrix}
+% 1 & a & b \\
+% 2 & a^2 & b^3 \\
+% 3 & a_3 & b_5
+% \end{pmatrix}
+% \]
+% \bigskip
+
+% This is how to make a table:
+
+% \medskip
+
+% \begin{tabular}{|c|c|c|}
+% \hline
+% $\delta$ & $a$ & $x$ \\
+% \hline
+% $q_{1}$ & $q_{1}$ & $ b$ \\
+% $q_{2}$ & $q_{1}$ & $ c$ \\
+% $q_{3}$ & $q_{2}$ & $ b$ \\
+% $q_{4}$ & $q_{3}$ & $ c$ \\
+% $q_{5}$ & $q_{4}$ & $ b$ \\
+% \hline
+% \end{tabular}
+% \medskip
+
+% This is how to draw the diagram of an automaton:
+% \medskip
+
+% \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2.8cm]]
+
+%   \node[initial, state, accepting] (3) {$q_{3}$};
+%   \node[state] (2) [above right of=3] {$q_{2}$};
+%   \node[state] (4) [below right of=3] {$q_{4}$};
+%   \node[state, accepting] (1) [right of=2] {$q_{1}$};
+ 
+  
+%   \path[->]
+%     (3.north) edge [left] node {$u$} (2.west)    
+%     (2) edge [right] node {$d$} (3)
+    
+%     (3) edge [right] node{$d$} (4)
+%     (4.west) edge [left] node {$u$} (3.south)
+    
+%     (2) edge [bend left] node[above] {$u$} (1)
+%     (1) edge [loop right] node {$u$} (1)
+%     (1) edge [bend left] node[below] {$d$} (2)
+%        ;  
+% \end{tikzpicture}
+
+% This is how to draw an arbitrary graph using a package called TikZ.
+% \medskip
+
+
+% \begin{tikzpicture}
+% %% vertices
+% \draw[fill=black] (0,0) circle (3pt);
+% \draw[fill=black] (4,0) circle (3pt);
+% \draw[fill=black] (2,1) circle (3pt);
+% \draw[fill=black] (2,3) circle (3pt);
+% %% vertex labels
+% \node at (-0.5,0) {1};
+% \node at (4.5,0) {2};
+% \node at (2.5,1.2) {3};
+% \node at (2,3.3) {4};
+% %%% edges
+% \draw[thick] (0,0) -- (4,0) -- (2,1) -- (0,0) -- (2,3) -- (4,0) -- (2,1) -- (2,3);
+% \end{tikzpicture}
+
+% This should be pretty self-explanatory. The ordered pairs in parentheses are all simply coordinates in the plane.
+
+
+% The edges are drawn by taking a walk through the graph, using each edge exactly once.
+% You can do much fancier things in TikZ, but this should at least get you started.
+
+
+
+
+% \bigskip
+
+% To make latex produce the text exactly how we type, we can use the verbatim environment. This is useful for example to write an algorithm in pseudo-code. Below is a short example.
+
+% \begin{verbatim}
+% s = 0
+% for i going from 1 to n
+
+%    s= s+ a[i]
+
+% end-for
+% \end{verbatim}
+
+% To append in the  latex file the Java source code and the screenshots, you can print them  as a pdf file (placed in the same folder) and then include them  in the latex file with 
+% \begin{verbatim}
+% \includepdf[pages=-,pagecommand={},width=\textwidth]{file.pdf}
+
+% \end{verbatim}
+% To append in the  latex file a .jpg file (for a photo), use 
+% \begin{verbatim}
+% \includegraphics[width=\linewidth]{photo.jpg}
+
+% \end{verbatim}
+
+
+
+
+% \noindent\textbf{Problem 2:} Here is the solution for problem 2.....
+
+
+
+
+
+% \bigskip
+
+% \noindent\textbf{Problem 3:} Here is the solution for problem 3. ...
+
+
+% \bigskip
+
+% \noindent\textbf{Problem 4:}  Here is the solution for problem 4. ...
+
+\end{document}
