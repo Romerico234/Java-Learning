@@ -1,3 +1,14 @@
+/*
+ * Our algorithm determines the maximum sum of increasing subsequences for a given integer array through
+ * dynamic programming. We initialize two arrays: s[0...n] to store the maximum sum of an increasing 
+ * subsequence ending at each index i, and p[0...n] to store the index of the preceding element in 
+ * that subsequence. Since the only increasing subsequence that can be formed at the first element
+ * is just itself with no predecessor, s[0] = a[0] and p[0] = -1. Then, we iterate through the entire 
+ * array, updating s[i] and p[i] as we determine the maximum sum at each index. After we find all
+ * values of s[0...n], we find the index of the maximum sum in s[0...n], which serves as a 
+ * reference point to reconstruct the increasing subsequence by iterating backwards through p[0...n]. 
+ */
+
 import java.util.*;
 import java.io.*;
 
@@ -53,7 +64,7 @@ public class Assign5 {
             for (int j = 0; j < i; j++) {
                 if (a[i] >= a[j] && s[i] <= s[j] + a[i]) {
                     s[i] = s[j] + a[i];
-                    p[i] = j; // Update the predecessor index
+                    p[i] = j; 
                 }
             }
         }
