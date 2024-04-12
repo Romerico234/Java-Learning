@@ -81,7 +81,9 @@ class BinarySearchTree {
 		printPreorder(node.left);
 		printPreorder(node.right);
 	}
+}
 
+public class Assign6 {
 	public static void main(String[] args) {
 		int[] data1 = { 7, 10, 3, 9, 13, 11 };
 		int[] data2 = fileReader("input-6-1.txt");
