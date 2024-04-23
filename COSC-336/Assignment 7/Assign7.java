@@ -4,91 +4,69 @@ import java.util.Scanner;
 
 public class Assign7 {
     public static void main(String[] args) {
-        int[] input1 = {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0};
+        int[] input1 = { 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0 };
         int[] input2 = fileReader("input-7-1.txt");
         int[] input3 = fileReader("input-7-2.txt");
-    
-        Adj_List_Graph A0 = new Adj_List_Graph((int)Math.sqrt(input1.length));
-        Adj_List_Graph B0 = new Adj_List_Graph((int)Math.sqrt(input2.length));
-        Adj_List_Graph C0 = new Adj_List_Graph((int)Math.sqrt(input3.length));
 
-        //Getting G
-    
-        for (int i = 0; i < A0.n; i++) 
-          for (int j = 0; j < A0.n; j++) 
-            if (input1[i * A0.n + j] == 1) 
-              A0.addEdge(i, j);
-        
-    
-        for (int i = 0; i < B0.n; i++) 
-          for (int j = 0; j < B0.n; j++) 
-            if (input2[i * B0.n + j] == 1) 
-              B0.addEdge(i, j);
-        
-    
-        for (int i = 0; i < C0.n; i++) 
-          for (int j = 0; j < C0.n; j++) 
-            if (input3[i * C0.n + j] == 1)
-              C0.addEdge(i, j);
-        
+        // Getting G
+        Adj_List_Graph A0 = createGraph(input1);
+        Adj_List_Graph B0 = createGraph(input2);
+        ;
+        Adj_List_Graph C0 = createGraph(input3);
 
-        //Getting G^2
-        Adj_List_Graph A = new Adj_List_Graph(A0);
-        Adj_List_Graph B = new Adj_List_Graph(B0);
-        Adj_List_Graph C = new Adj_List_Graph(C0);
+        // Getting G^2
+        Adj_List_Graph A = createGraphSquared(A0);
+        Adj_List_Graph B = createGraphSquared(B0);
+        Adj_List_Graph C = createGraphSquared(C0);
 
-        for (int i = 0; i < A0.n; i++) {
-          for (int j = 0; j < A0.n; j++) 
-            if (A0.adj.get(i).contains(j)) {
-              for (int k = 0; k < A0.n; k++) 
-                if (A0.adj.get(j).contains(k)) 
-                  A.addEdge(i, k);
-            }
-        }
-
-        for (int i = 0; i < B0.n; i++) {
-          for (int j = 0; j < B0.n; j++) 
-            if (B0.adj.get(i).contains(j)) {
-              for (int k = 0; k < B0.n; k++) 
-                if (B0.adj.get(j).contains(k)) 
-                  B.addEdge(i, k);
-            }
-        }
-
-        for (int i = 0; i < C0.n; i++) {
-          for (int j = 0; j < C0.n; j++) 
-            if (C0.adj.get(i).contains(j)) {
-              for (int k = 0; k < C0.n; k++) 
-                if (C0.adj.get(j).contains(k)) 
-                  C.addEdge(i, k);
-            }
-        }
-
-
-        // System.out.print("Adjacency List of  A^2:");
-        // A.printGraph();
-        System.out.print("Adjacency List of  B:");
+        System.out.print("Adjacency List of A^2:");
+        A.printGraph();
+        System.out.println("---------------------");
+        System.out.print("Adjacency List of B^2:");
         B.printGraph();
-        System.out.print("Adjacency List of C:");
+        System.out.println("---------------------");
+        System.out.print("Adjacency List of C^2:");
         C.printGraph();
-      }
-    
-      public static int[] fileReader(String fileName) {
+    }
+
+    public static int[] fileReader(String fileName) {
         try {
-          File file = new File(fileName);
-          Scanner fileReader = new Scanner(file);
-          int size = 0;
-          if (fileReader.hasNextInt())
-            size = (int)Math.pow(fileReader.nextInt(), 2);
-          int[] list = new int[size];
-          int i = 0;
-          while (fileReader.hasNextInt())
-            list[i++] = fileReader.nextInt();
-          fileReader.close();
-          return list;
+            File file = new File(fileName);
+            Scanner fileReader = new Scanner(file);
+            int size = 0;
+            if (fileReader.hasNextInt())
+                size = (int) Math.pow(fileReader.nextInt(), 2);
+            int[] list = new int[size];
+            int i = 0;
+            while (fileReader.hasNextInt())
+                list[i++] = fileReader.nextInt();
+            fileReader.close();
+            return list;
         } catch (FileNotFoundException e) {
-          System.out.println("File not found: " + e.getMessage());
+            System.out.println("File not found: " + e.getMessage());
         }
         return null;
-      }
+    }
+
+    public static Adj_List_Graph createGraph(int[] input) {
+        Adj_List_Graph g = new Adj_List_Graph((int) Math.sqrt(input.length));
+        for (int i = 0; i < g.n; i++)
+            for (int j = 0; j < g.n; j++)
+                if (input[i * g.n + j] == 1)
+                    g.addEdge(i, j);
+        return g;
+    }
+
+    public static Adj_List_Graph createGraphSquared(Adj_List_Graph g) {
+        Adj_List_Graph g2 = new Adj_List_Graph(g);
+        for (int i = 0; i < g.n; i++) {
+            for (int j = 0; j < g.n; j++)
+                if (g.adj.get(i).contains(j)) {
+                    for (int k = 0; k < g.n; k++)
+                        if (g.adj.get(j).contains(k))
+                            g2.addEdge(i, k);
+                }
+        }
+        return g2;
+    }
 }
