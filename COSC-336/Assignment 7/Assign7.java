@@ -11,7 +11,6 @@ public class Assign7 {
         // Getting G
         Adj_List_Graph A0 = createGraph(input1);
         Adj_List_Graph B0 = createGraph(input2);
-        ;
         Adj_List_Graph C0 = createGraph(input3);
 
         // Getting G^2
