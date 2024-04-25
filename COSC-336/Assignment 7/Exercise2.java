@@ -4,7 +4,7 @@
 
 // Java program to sort an array of size n where elements are
 // in range from 0 to n^2 – 1.
-class RadixSort {
+class VariationOfRadixSort {
 	// A function to do counting sort of arr[] according to
 	// the digit represented by exp.
 	void countSort(int arr[], int n, int exp) {
@@ -62,7 +62,7 @@ public class Exercise2 {
 	}
 
 	public static void sort(int[] list1, int n) {
-		RadixSort ob = new RadixSort();
+		VariationOfRadixSort ob = new VariationOfRadixSort();
 		ob.sort(list1, n);
 		ob.printArr(list1, n);
 	}

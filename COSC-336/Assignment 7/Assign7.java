@@ -18,12 +18,12 @@ public class Assign7 {
         Adj_List_Graph B = createGraphSquared(B0);
         Adj_List_Graph C = createGraphSquared(C0);
 
-        System.out.print("Adjacency List of A^2:");
-        A.printGraph();
-        System.out.println("---------------------");
-        System.out.print("Adjacency List of B^2:");
-        B.printGraph();
-        System.out.println("---------------------");
+        // System.out.print("Adjacency List of A^2:");
+        // A.printGraph();
+        // System.out.println("---------------------");
+        // System.out.print("Adjacency List of B^2:");
+        // B.printGraph();
+        // System.out.println("---------------------");
         System.out.print("Adjacency List of C^2:");
         C.printGraph();
     }
@@ -58,14 +58,22 @@ public class Assign7 {
 
     public static Adj_List_Graph createGraphSquared(Adj_List_Graph g) {
         Adj_List_Graph g2 = new Adj_List_Graph(g);
-        for (int i = 0; i < g.n; i++) {
-            for (int j = 0; j < g.n; j++)
-                if (g.adj.get(i).contains(j)) {
-                    for (int k = 0; k < g.n; k++)
-                        if (g.adj.get(j).contains(k))
-                            g2.addEdge(i, k);
-                }
-        }
+        for (int i = 0; i < g.n; i++) 
+            for (int j : g.adj.get(i)) 
+                for (int k : g.adj.get(j)) 
+                    g2.addEdge(i, k);
         return g2;
     }
+
+    /*
+    public static Adj_List_Graph createGraphSquared(Adj_List_Graph g) {
+        Adj_List_Graph g2 = new Adj_List_Graph(g);
+        for (int i = 0; i < g.n; i++) 
+            for (int j = 0; j < g.n; j++)
+                for (int k = 0; k < g.n; k++)
+                    if (g.adj.get(i).contains(j) && g.adj.get(j).contains(k))
+                        g2.addEdge(i, k);
+        return g2;
+    }
+     */
 }
