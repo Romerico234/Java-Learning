@@ -54,17 +54,49 @@ class VariationOfRadixSort {
 
 public class Exercise2 {
 	public static void main(String args[]) {
-		int[] list1 = {45, 98, 3, 82, 132, 71, 72, 143, 91, 28, 7, 45};
-		int[] list2 = {45, 98, 3, 82, 132, 71, 72, 143, 91, 28, 7, 45, 151, 175, 145, 399, 21, 267, 346, 292};
-		sort(list1, list1.length);
-		System.out.println("\n---------------------");
-		sort(list2, list2.length);
+		int[] list1 = { 45, 98, 3, 82, 132, 71, 72, 143, 91, 28, 7, 45 };
+		int[] list2 = { 45, 98, 3, 82, 132, 71, 72, 143, 91, 28, 7, 45, 151, 175, 145, 399, 21, 267, 346, 292 };
+		String[] base12List = convertArrayToBase(list1, 12);
+		String[] base20List = convertArrayToBase(list2, 20);
+		printArray(base12List);
+		System.out.println("---------------------");
+		printArray(base20List);
+		// sort(list1, list1.length);
+		// System.out.println("\n---------------------");
+		// sort(list2, list2.length);
 	}
 
-	public static void sort(int[] list1, int n) {
+	public static void sort(int[] list1, int k) {
 		VariationOfRadixSort ob = new VariationOfRadixSort();
-		ob.sort(list1, n);
-		ob.printArr(list1, n);
+		ob.sort(list1, k);
+		ob.printArr(list1, k);
+	}
+
+	public static String[] convertArrayToBase(int[] nums, int base) {
+		if (base < 2 || base > 36) 
+			return new String[] { "Invalid base" };
+
+		String[] results = new String[nums.length];
+		for (int i = 0; i < nums.length; i++) {
+			int num = nums[i];
+			String result = "";
+			while (num > 0) {
+				int remainder = num % base;
+				if (remainder < 10) 
+					result = remainder + result; // Prepend the remainder to the result
+				else 
+					result = (char) ('A' + remainder - 10) + result; // Map the remainder to A-Z
+				num /= base;
+			}
+			results[i] = result.equals("") ? "0" : result; // If the number is zero, append "0" to result
+		}
+		return results;
+	}
+
+	public static void printArray(String[] arr) {
+		for (String s : arr) 
+			System.out.print(s + " ");
+		System.out.println();
 	}
 }
 /* This code is contributed by Rajat Mishra */
